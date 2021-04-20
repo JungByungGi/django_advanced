@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from .forms import RegisterForm
 from django.views.generic.edit import FormView
+from django.views.generic import ListView
+from .models import Order
 
 
 class OrderCreate(FormView):
@@ -19,3 +21,18 @@ class OrderCreate(FormView):
             'request': self.request
         })
         return kw
+
+
+# 리스트 뷰를 이용해 상품목록 조회
+class OrderList(ListView):
+    #다른 사람이 주문한 정보도 보여짐
+    #model = Order
+
+    template_name = 'order.html'
+    context_object_name = 'order_list'
+
+    # 따라서 함수 오버라이딩을 통해 queryset을 만들어 로그인한 사용자의 주문 정보만 볼 수 있도록 한다.
+
+    def get_queryset(self, **kwargs):
+        queryset = Order.objects.filter(fcuser__email=self.request.session.get('user'))
+        return queryset

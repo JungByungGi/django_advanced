@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from fcuser.views import index, RegisterView, LoginView
 from product.views import ProductList, ProductCreate, ProductDetail
-from order.views import OrderCreate
+from order.views import OrderCreate, OrderList
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,5 +30,6 @@ urlpatterns = [
     path('product/create/', ProductCreate.as_view()),
     # int형 pk로 파라미터를 받아서 해당 pk를 가진 상품을 상세보기함
     path('product/<int:pk>/', ProductDetail.as_view()),
+    path('order/', OrderList.as_view()),
     path('order/create/', OrderCreate.as_view())
 ]

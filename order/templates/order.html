@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+<!--humanize는 다양한 필터 기능 제공-->
+<!-- django template builtin filter-->
+{% load humanize %}
+{% block contents %}
+<div class="row mt-5">
+    <div class="col-12">
+        <table class="table table-light">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">상품명</th>
+                    <th scope="col">수량</th>
+                    <th scope="col">주문날짜</th>
+                </tr>
+            </thead>
+            <tbody class="text-dark">
+            {% for order in order_list %}
+                <tr>
+                    <th scope="row">{{order.id}}</th>
+                    <!-- a href를 통해서 상세보기 link 연결-->
+                    <th>{{order.product}}</a></th>
+                    <th>{{order.quantity|intcomma}}개</th>
+                    <th>{{order.register_date|date:'Y-m-d H:i'}}</th>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

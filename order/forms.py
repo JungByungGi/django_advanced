@@ -6,7 +6,6 @@ from django.db import transaction
 
 
 class RegisterForm(forms.Form):
-
     # form 안에서 request 전달
     def __init__(self, request, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -17,11 +16,11 @@ class RegisterForm(forms.Form):
             'required': '수량을 입력해주세요.'
         }, label='수량'
     )
-    # 사용자와 제품은 입력을 id로 받을 거기 때문에 int(사용자의 경우는 로그인 시 아이디 값이 전달되어야 하므로 따로 추가할 필요 없음.(session에 저장되어 있음)
+    # 사용자와 제품은 입력을 id로 받을 거기 때문에 int(단, 사용자의 경우는 로그인 시 아이디 값이 전달되어야 하므로 따로 추가할 필요 없음.(session에 저장되어 있음))
     product = forms.IntegerField(
         error_messages={
             'required': '상품을 입력해주세요.'
-        }, label='상품', widget=forms.HiddenInput  # 실제로 입력하는 값이 아님.(사용자에게 보여지지 않음)
+        }, label='상품', widget=forms.HiddenInput  # 상품명은 조회되는 페이지에 이미 표시되는 값이지 실제로 입력하는 값이 아니므로 hiddenInput widget 사용
     )
 
     # vaildation

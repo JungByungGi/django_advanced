@@ -7,7 +7,7 @@ class Order(models.Model):
     fcuser = models.ForeignKey('fcuser.Fcuser', on_delete=models.CASCADE, verbose_name='사용자')
     product = models.ForeignKey('product.Product', on_delete=models.CASCADE, verbose_name='상품')
     quantity = models.IntegerField(verbose_name='수량') # integerfield : 정수 데이터 저장
-    register_date = models.DateField(auto_now_add=True, verbose_name='등록 날짜') # auto_now_add : 최초 저장 시에만 현재날짜를 적용 / auto_now는 save 할 때마다 현재날짜로 갱신
+    register_date = models.DateTimeField(auto_now_add=True, verbose_name='등록 날짜') # auto_now_add : 최초 저장 시에만 현재날짜를 적용 / auto_now는 save 할 때마다 현재날짜로 갱신
 
     def __str__(self):
         return str(self.fcuser) + ' ' + str(self.product)
