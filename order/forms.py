@@ -31,7 +31,8 @@ class RegisterForm(forms.Form):
         # session에 있는 user 정보를 가지고 옴
         fcuser = self.request.session.get('user')
 
-        if quantity and product and fcuser:
+        if not(quantity and product):
+            '''
             # 안의 모든 동작이 transaction으로 처리된다.
             # transaction : 모든 동작이 올바르게 수행되어야 실행됨. 가령 주문을 했는데 수량이 줄지 않았다면 rollback함.
             with transaction.atomic():
@@ -44,7 +45,6 @@ class RegisterForm(forms.Form):
                 order.save()
                 prod.stock -= quantity
                 prod.save()
-        else:
-            self.product = product
+            '''
             self.add_error('quantity', '값이 없습니다.')
             self.add_error('product', '값이 없습니다.')

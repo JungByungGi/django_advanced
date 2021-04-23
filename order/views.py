@@ -4,7 +4,11 @@ from django.views.generic.edit import FormView
 from fcuser.decorators import login_required
 from django.utils.decorators import method_decorator  # 장고에서 class에 decorator를 사용할 수 있도록 제공해주는 함수
 from django.views.generic import ListView
+from django.db import transaction
 from .models import Order
+from product.models import Product
+from fcuser.models import Fcuser
+
 
 @method_decorator(login_required, name='dispatch')
 class OrderCreate(FormView):
@@ -12,9 +16,24 @@ class OrderCreate(FormView):
     form_class = RegisterForm
     success_url = '/product/'
 
+    def form_valid(self, form):
+        with transaction.atomic():
+            prod = Product.objects.get(pk=form.data.get('product'))
+            order = Order(
+                quantity=form.data.get('quantity'),
+                product=Product.objects.get(pk=form.data.get('product')),
+                #user는 session에서 가져옴
+                fcuser=Fcuser.objects.get(email=self.request.session.get('user'))
+            )
+            order.save()
+            prod.stock -= int(form.data.get('quantity'))
+            prod.save()
+
+        return super().form_valid(form)
+
     # 유효하지 않은 경우 본 페이지로 돌아가기
     def form_invalid(self, form):
-        return redirect('/product/' + str(form.product))
+        return redirect('/product/' + str(form.product.get('product')))
 
     # 폼 생성 시 어떤 인자값을 전달해서 만들건지 결정하는 함수
     def get_form_kwargs(self, **kwargs):
