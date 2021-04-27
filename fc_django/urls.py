@@ -17,13 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from fcuser.views import index, logout, RegisterView, LoginView
-from product.views import ProductList, ProductCreate, ProductDetail
+from product.views import ProductList, ProductCreate, ProductDetail, ProductListAPI
 from order.views import OrderCreate, OrderList
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index),
-    #class의 경우 as_view()를 붙여야 함
+    # class의 경우 as_view()를 붙여야 함
     path('register/', RegisterView.as_view()),
     path('login/', LoginView.as_view()),
     path('product/', ProductList.as_view()),
@@ -32,5 +32,6 @@ urlpatterns = [
     path('product/<int:pk>/', ProductDetail.as_view()),
     path('order/', OrderList.as_view()),
     path('order/create/', OrderCreate.as_view()),
-    path('logout/',logout)
+    path('logout/', logout),
+    path('api/product/', ProductListAPI.as_view())
 ]

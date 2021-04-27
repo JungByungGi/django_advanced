@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize', # humanize app 설치
+    'rest_framework', # rest framework 사용
     'fcuser',
     'order',
     'product',

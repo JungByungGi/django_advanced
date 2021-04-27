@@ -6,9 +6,20 @@ from fcuser.decorators import admin_required
 from .models import Product
 from .forms import RegisterForm
 from order.forms import RegisterForm as OrderForm
+from rest_framework import generics
+from rest_framework import mixins
+from .serializers import ProductSerializer
 
 
-# Create your views here.
+# ProductList api 클래스
+class ProductListAPI(generics.GenericAPIView, mixins.ListModelMixin):
+    serializer_class = ProductSerializer
+
+    def get_queryset(self):
+        return Product.objects.all().order_by('id')
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
 
 
 # 리스트 뷰를 이용해 상품목록 조회
@@ -26,7 +37,7 @@ class ProductCreate(FormView):
     success_url = '/product/'
 
     def form_valid(self, form):
-        product=Product(
+        product = Product(
             name=form.data.get('name'),
             price=form.data.get('price'),
             description=form.data.get('description'),
