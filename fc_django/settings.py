@@ -50,9 +50,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize', # humanize app 설치
     'rest_framework', # rest framework 사용
-    'fcuser',
-    'order',
-    'product',
+    'fcuser.apps.FcuserConfig',
+    'order.apps.OrderConfig',
+    'product.apps.ProductConfig',
 
     'baton.autodiscover',
 ]
