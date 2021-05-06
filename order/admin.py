@@ -17,6 +17,11 @@ class OrderAdmin(admin.ModelAdmin):
             return format_html(f'<span style="color:blue">{obj.status}</span>')
 
         return obj.status
+    
+    def changelist_view(self, request, extra_context=None):
+        extra_context = { 'title': '주문 목록'}
+        return super().changelist_view(request, extra_context)
+    
     # 상태바 변경
     styled_status.short_description = '상태'
 
