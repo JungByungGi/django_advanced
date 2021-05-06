@@ -14,14 +14,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-from django.contrib import admin
-from django.urls import path
+from baton.autodiscover import admin
+from django.urls import path, include
 from fcuser.views import index, logout, RegisterView, LoginView
 from product.views import ProductList, ProductCreate, ProductDetail, ProductListAPI, ProductDetailAPI
 from order.views import OrderCreate, OrderList
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('baton/', include('baton.urls')),
     path('', index),
     # class의 경우 as_view()를 붙여야 함
     path('register/', RegisterView.as_view()),
